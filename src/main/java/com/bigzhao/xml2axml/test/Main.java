@@ -1,4 +1,4 @@
-package test;
+package com.bigzhao.xml2axml.test;
 
 import android.content.Context;
 import com.bigzhao.xml2axml.Encoder;
@@ -26,13 +26,13 @@ public class Main {
         }
     }
 
-    private static void encode(String in,String out) throws IOException, XmlPullParserException {
+    public static void encode(String in,String out) throws IOException, XmlPullParserException {
         Encoder e = new Encoder();
         byte[] bs = e.encodeFile(new Context(), in);
         FileUtils.writeByteArrayToFile(new File(out), bs);
     }
 
-    private static void decode(String in,String out) throws FileNotFoundException {
+    public static void decode(String in,String out) throws FileNotFoundException {
         AXMLPrinter.out=new PrintStream(new File(out));
         AXMLPrinter.main(new String[]{in});
         AXMLPrinter.out.close();

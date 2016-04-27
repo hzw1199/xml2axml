@@ -40,6 +40,7 @@ public class Encoder {
     }
 
     public byte[] encode(Context context,XmlPullParser p) throws XmlPullParserException, IOException {
+        if (context==null) context=new Context();
         XmlChunk chunk=new XmlChunk(context);
         //HashSet<String> strings=new HashSet<String>();
         TagChunk current=null;

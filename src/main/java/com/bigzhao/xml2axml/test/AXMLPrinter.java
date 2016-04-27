@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package test;
+package com.bigzhao.xml2axml.test;
 
-import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.util.Base64;
 
-import com.sun.deploy.util.StringUtils;
-import org.apache.commons.io.FileUtils;
 import org.xmlpull.v1.XmlPullParser;
 import android.content.res.AXmlResourceParser;
 import android.util.TypedValue;
+import org.xmlpull.v1.XmlPullParserException;
 
 /**
  * @author Dmitry Skiba
@@ -44,70 +42,73 @@ public class AXMLPrinter {
 			return;
 		}
 		try {
-			AXmlResourceParser parser=new AXmlResourceParser();
 			FileInputStream inf=new FileInputStream(arguments[0]);
-			parser.open(inf);
-			//byte[] bs=FileUtils.readFileToByteArray(new File(arguments[0]));
-			//String b64=new String(Base64.getEncoder().encode(bs));
-			StringBuilder indent=new StringBuilder(10);
-			//FileUtils.writeStringToFile(new File(arguments[0]+".base64.txt"),b64);
-			final String indentStep="	";
-			while (true) {
-				int type=parser.next();
-				if (type==XmlPullParser.END_DOCUMENT) {
-					break;
-				}
-				switch (type) {
-					case XmlPullParser.START_DOCUMENT:
-					{
-						log("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-						break;
-					}
-					case XmlPullParser.START_TAG:
-					{
-						log("%s<%s%s",indent,
-							getNamespacePrefix(parser.getPrefix()),parser.getName());
-						indent.append(indentStep);
-						
-						int namespaceCountBefore=parser.getNamespaceCount(parser.getDepth()-1);
-						int namespaceCount=parser.getNamespaceCount(parser.getDepth());
-						for (int i=namespaceCountBefore;i!=namespaceCount;++i) {
-							log("%sxmlns:%s=\"%s\"",
-								indent,
-								parser.getNamespacePrefix(i),
-								parser.getNamespaceUri(i));
-						}
-						
-						for (int i=0;i!=parser.getAttributeCount();++i) {
-							log("%s%s%s=\"%s\"",indent,
-								getNamespacePrefix(parser.getAttributePrefix(i)),
-								parser.getAttributeName(i),
-								getAttributeValue(parser,i));
-						}
-						log("%s>",indent);
-						break;
-					}
-					case XmlPullParser.END_TAG:
-					{
-						indent.setLength(indent.length()-indentStep.length());
-						log("%s</%s%s>",indent,
-							getNamespacePrefix(parser.getPrefix()),
-							parser.getName());
-						break;
-					}
-					case XmlPullParser.TEXT:
-					{
-						log("%s%s",indent,parser.getText());
-						break;
-					}
-				}
-			}
-		}
-		catch (Exception e) {
+			decode(inf);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public static void decode(InputStream inf) throws XmlPullParserException, IOException {
+		AXmlResourceParser parser=new AXmlResourceParser();
+		parser.open(inf);
+		//byte[] bs=FileUtils.readFileToByteArray(new File(arguments[0]));
+		//String b64=new String(Base64.getEncoder().encode(bs));
+		StringBuilder indent=new StringBuilder(10);
+		//FileUtils.writeStringToFile(new File(arguments[0]+".base64.txt"),b64);
+		final String indentStep="	";
+		while (true) {
+            int type=parser.next();
+            if (type== XmlPullParser.END_DOCUMENT) {
+                break;
+            }
+            switch (type) {
+                case XmlPullParser.START_DOCUMENT:
+                {
+                    log("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+                    break;
+                }
+                case XmlPullParser.START_TAG:
+                {
+                    log("%s<%s%s",indent,
+                        getNamespacePrefix(parser.getPrefix()),parser.getName());
+                    indent.append(indentStep);
+
+                    int namespaceCountBefore=parser.getNamespaceCount(parser.getDepth()-1);
+                    int namespaceCount=parser.getNamespaceCount(parser.getDepth());
+                    for (int i=namespaceCountBefore;i!=namespaceCount;++i) {
+                        log("%sxmlns:%s=\"%s\"",
+                            indent,
+                            parser.getNamespacePrefix(i),
+                            parser.getNamespaceUri(i));
+                    }
+
+                    for (int i=0;i!=parser.getAttributeCount();++i) {
+                        log("%s%s%s=\"%s\"",indent,
+                            getNamespacePrefix(parser.getAttributePrefix(i)),
+                            parser.getAttributeName(i),
+                            getAttributeValue(parser,i));
+                    }
+                    log("%s>",indent);
+                    break;
+                }
+                case XmlPullParser.END_TAG:
+                {
+                    indent.setLength(indent.length()-indentStep.length());
+                    log("%s</%s%s>",indent,
+                        getNamespacePrefix(parser.getPrefix()),
+                        parser.getName());
+                    break;
+                }
+                case XmlPullParser.TEXT:
+                {
+                    log("%s%s",indent,parser.getText());
+                    break;
+                }
+            }
+        }
+	}
+
 	private static String getNamespacePrefix(String prefix) {
 		if (prefix==null || prefix.length()==0) {
 			return "";
