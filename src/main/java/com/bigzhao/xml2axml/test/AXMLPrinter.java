@@ -20,8 +20,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-import org.xmlpull.v1.XmlPullParser;
 import android.content.res.AXmlResourceParser;
+import org.xmlpull.v1.XmlPullParser;
+import android.content.res.XmlResourceParser;
 import android.util.TypedValue;
 import org.xmlpull.v1.XmlPullParserException;
 

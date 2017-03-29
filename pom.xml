@@ -6,7 +6,7 @@
 
     <groupId>com.bigzhao.axml</groupId>
     <artifactId>xml2axml</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
 
 <dependencies>
     <dependency>
@@ -19,12 +19,22 @@
         <groupId>net.sf.kxml</groupId>
         <artifactId>kxml2</artifactId>
         <version>2.3.0</version>
+        <scope>compile</scope>
     </dependency>
     <dependency>
-        <groupId>commons-lang</groupId>
-        <artifactId>commons-lang</artifactId>
-        <version>2.5</version>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.4</version>
+        <scope>compile</scope>
     </dependency>
+    <dependency>
+        <groupId>com.google.android</groupId>
+        <artifactId>android</artifactId>
+        <version>21.0.0</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}\libs\android.jar</systemPath>
+    </dependency>
+
 </dependencies>
     <build>
         <plugins>
