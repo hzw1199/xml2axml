@@ -4,11 +4,11 @@ Encode xml to axml OR decode xml from axml
 
 * encode  
 ```
-java -jar xml2axml e [AndroidManifest-readable.xml] [AndroidManifest-bin.xml]
+java -jar xml2axml e [AndroidManifest-readable-in.xml] [AndroidManifest-bin-out.xml]
 ```
 * decode  
 ```
-java -jar xml2axml d [AndroidManifest-bin.xml] [AndroidManifest-readable.xml]
+java -jar xml2axml d [AndroidManifest-bin-in.xml] [AndroidManifest-readable-out.xml]
 ```
 
 Note  
