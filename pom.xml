@@ -6,7 +6,7 @@
 
     <groupId>com.bigzhao.axml</groupId>
     <artifactId>xml2axml</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -31,8 +31,7 @@
             <groupId>com.google.android</groupId>
             <artifactId>android</artifactId>
             <version>28.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/android.jar</systemPath>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>
@@ -48,6 +47,7 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+
             <!--package without jar in lib -->
             <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -69,8 +69,9 @@
                     </execution>
                 </executions>
             </plugin>-->
+
             <!--package with jar in lib-->
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
@@ -93,6 +94,55 @@
                         </configuration>
                         <goals>
                             <goal>one-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+
+            <!-- make jar compile scope -->
+            <!-- https://eureka.ykyuen.info/2014/06/10/maven-include-system-scope-dependency-in-maven-assembly-plugin/ -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install-external</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <file>${basedir}/libs/android.jar</file>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>com.google.android</groupId>
+                            <artifactId>android</artifactId>
+                            <version>28.0.0</version>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--package jar as class in lib-->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.bigzhao.xml2axml.test.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assembly</goal>
                         </goals>
                     </execution>
                 </executions>

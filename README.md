@@ -12,4 +12,4 @@ java -jar xml2axml d [AndroidManifest-bin-in.xml] [AndroidManifest-readable-out.
 ```
 
 Note  
-This project is based on [This project](https://github.com/l741589/xml2axml)
+The project is based on [This project](https://github.com/l741589/xml2axml)
