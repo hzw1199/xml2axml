@@ -1,5 +1,6 @@
 package com.bigzhao.xml2axml.chunks;
 
+import android.text.TextUtils;
 import android.graphics.Color;
 
 import com.bigzhao.xml2axml.ComplexConsts;
@@ -38,7 +39,7 @@ public class AttrChunk extends Chunk<Chunk.EmptyHeader>{
 
     @Override
     public void writeEx(IntWriter w) throws IOException {
-        w.write(startTagChunk.stringIndex(null,namespace));
+        w.write(startTagChunk.stringIndex(null, TextUtils.isEmpty(namespace) ? null : namespace));
         w.write(startTagChunk.stringIndex(namespace,name));
         //w.write(-1);
         if (value.type==ValueType.STRING)
