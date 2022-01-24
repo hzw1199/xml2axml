@@ -222,12 +222,13 @@ public class StringPoolChunk extends Chunk<StringPoolChunk.H>{
     public int stringIndex(String namespace, String s) {
         namespace=preHandleString(namespace);
         s=preHandleString(s);
-        if (TextUtils.isEmpty(s)) return -1;
+        if (s == null) return -1;
         int l=rawStrings.size();
         for (int i=0;i<l;++i){
             StringItem item=rawStrings.get(i).origin;
             if (s.equals(item.string)&&(TextUtils.isEmpty(namespace)||namespace.equals(item.namespace))) return i;
         }
+        if (TextUtils.isEmpty(s)) return -1;  // only if there is no empty string in the string pool
         throw new RuntimeException("String: '"+s+"' not found");
         //return -1;
     }

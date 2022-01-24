@@ -287,7 +287,10 @@ public class AXmlResourceParser implements XmlResourceParser {
 		int valueType=m_attributes[offset+ATTRIBUTE_IX_VALUE_TYPE];
 		if (valueType==TypedValue.TYPE_STRING) {
 			int valueString=m_attributes[offset+ATTRIBUTE_IX_VALUE_STRING];
-			return m_strings.getString(valueString);
+			String value = m_strings.getString(valueString);
+			if (value != null) {
+				return value;
+			}
 		}
 		int valueData=m_attributes[offset+ATTRIBUTE_IX_VALUE_DATA];
 		return "";//TypedValue.coerceToString(valueType,valueData);
