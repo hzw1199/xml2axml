@@ -15,6 +15,7 @@
  */
 package android.content.res;
 
+import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,6 +74,10 @@ public final class IntReader {
 	}
 	public final int readInt() throws IOException {
 		return readInt(4);
+	}
+	
+	public final void readFully(byte[] b) throws IOException {
+		new DataInputStream(m_stream).readFully(b);
 	}
 	
 	public final int readInt(int length) throws IOException {
